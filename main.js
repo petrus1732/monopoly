@@ -14,7 +14,6 @@ for (let i = 1; i<=12; i++) puzzleList.push(`puzzle${i}.jpg`);
 const puzzleNum = puzzleList.length;
 
 const generateGroups = () => {
-    //if (localStorage.getItem("groups generated") == null)
     groupsSet = true;
     document.getElementById("set-groups-num").style.display = "none";
     document.getElementById("rank-board").style.display = "block";
@@ -82,8 +81,14 @@ const generateGroups = () => {
         groupRank.append(numIcon, score);
         document.getElementById("group-rank-container").append(groupRank);
     }
-    if (localStorage.getItem("groupSet") === "true") changeRank();
-    else localStorage.setItem("groupSet", "true");
+    if (localStorage.getItem("groupSet") === "true"){
+        changeRank();
+        currentGroup = localStorage.getItem("currentGroup");
+    }
+    else{
+        localStorage.setItem("groupSet", "true");
+        localStorage.setItem("currentGroup", 1);
+    }
 }
 
 const setGroupsNum = () => {
