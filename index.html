@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>monopoly</title>
+        <link rel="stylesheet" href="style.css"></link>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    </head>
+    <body onload="generateBoard()">
+        <header>
+            Monopoly
+        </header>
+        <main>
+            <div id="puzzle-container">
+                <div class="image-container"><img></div>
+                <div id="input-container">
+                    <span>correct groups<input type="text" id="correct-groups"></span><br>
+                    <span>contributor<input type="text" id="contributor"></span><br>
+                    <button id="confirm2" onclick="setPuzzleScore()">Confirm</button>
+                </div>
+            </div>
+            <div id="destiny-container" onclick="closeDestiny(this)">
+                <div class="destiny" id="destiny0">+30</div>
+                <div class="destiny" id="destiny1">+10</div>
+                <div class="destiny" id="destiny2">-30</div>
+                <div class="destiny" id="destiny3"></div>
+                <div class="destiny" id="destiny4">richest => poorest 20</div>
+                <div class="destiny" id="destiny5">poorest +30</div>
+            </div>
+            <div id="board-container">
+                <div class="block" id="template-block">
+                    <span class="text"></span>
+                    <span class="edit material-icons-outlined" onclick="showOptions(this)">edit</span>
+                    <div class="selection-box">
+                        <span class="options select-D" onclick="setType(this)">D</span>
+                        <span class="options select-Q" onclick="setType(this)">
+                            Q
+                            <input id="Q0" class="input Q-input" type="text" onclick="setType(this)" onchange="setText(this, 'Q')">
+                        </span>
+                        <span class="options select-special" onclick="setType(this)">
+                            special
+                            <input id="s0" class="input special-input" type="text" onclick="setType(this)" onchange="setText(this, 's')">
+                        </span>
+                    </div>
+                </div>
+                <div class="blocks-container" id="top"></div>
+                <div class="blocks-container" id="left"></div>
+                <div id="middle">
+                    <div id="whose-turn">
+                        It's Group <span id="colored-num">1</span>'s turn.
+                    </div>
+                    <div id="dice-container">
+                        <div id='dice1' class="dice">
+                            <div class='side one'>
+                                <div class="dot one-1"></div>
+                            </div>
+                            <div class='side two'>
+                                <div class="dot two-1"></div>
+                                <div class="dot two-2"></div>
+                            </div>
+                            <div class='side three'>
+                                <div class="dot three-1"></div>
+                                <div class="dot three-2"></div>
+                                <div class="dot three-3"></div>
+                            </div>
+                            <div class='side four'>
+                                <div class="dot four-1"></div>
+                                <div class="dot four-2"></div>
+                                <div class="dot four-3"></div>
+                                <div class="dot four-4"></div>
+                            </div>
+                            <div class='side five'>
+                                <div class="dot five-1"></div>
+                                <div class="dot five-2"></div>
+                                <div class="dot five-3"></div>
+                                <div class="dot five-4"></div>
+                                <div class="dot five-5"></div>
+                            </div>
+                            <div class='side six'>
+                                <div class="dot six-1"></div>
+                                <div class="dot six-2"></div>
+                                <div class="dot six-3"></div>
+                                <div class="dot six-4"></div>
+                                <div class="dot six-5"></div>
+                                <div class="dot six-6"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id='roll' class='roll-button'><button onclick="rollDice()">Roll dice!</button></div>
+                </div>
+                <div class="blocks-container" id="right"></div>
+                <div class="blocks-container" id="bottom"></div>
+            </div>
+            <div id="set-groups-num">
+                groups number 
+                <input type="text" id="groups-number-input">
+                <span id="confirm" onclick="setGroupsNum()">enter</span>
+                <div id="error-message"></div>
+            </div>
+            <div id="rank-board">
+                <div id="score-text">scores</div>
+                <div id="group-rank-container"></div>
+            </div>
+        </main>
+        <script src="main.js"></script>
+    </body>
+</html>
