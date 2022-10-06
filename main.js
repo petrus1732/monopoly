@@ -9,7 +9,9 @@ const groupList = [];
 let currentGroup = 1;
 let groupsSet = false;
 let destiny;
-const puzzleList = ["高權1.jpg", "高權2.jpg", "張鎧全1.png","張鎧全1.png", "鄭東庭1.png", "鄭東庭2.png"];
+const puzzleList = ["高權1.jpg", "高權2.jpg", "林敬庭1題目.png","張鎧全1.png", "鄭東庭1.png", "鄭東庭2.png", "張子泓1.png",
+"涂宇杰1.png", "涂宇杰2.png", "郭祐維1題目.png", "陳泯樺.jpg", "游子彥1.jpg", "游子彥2.jpg" ,"游子彥3.jpg" ,"楊秉哲1.jpg"
+, "潘柏廷1.jpg", "鄭東庭1.jpg" ,"鄭東庭2.jpg"];
 for (let i = 1; i<=12; i++) puzzleList.push(`puzzle${i}.jpg`);
 const puzzleNum = puzzleList.length;
 
@@ -17,10 +19,9 @@ const generateGroups = () => {
     groupsSet = true;
     document.getElementById("set-groups-num").style.display = "none";
     document.getElementById("rank-board").style.display = "block";
-    console.log(groupNum)
+  
     for (let i = 1; i <= groupNum; i++) {
         let group, r, g, b, x, y;
-        console.log(i);
         if (localStorage.getItem("groupSet") === "true"){
             group = {
                 number: i,
@@ -30,7 +31,6 @@ const generateGroups = () => {
                 pos: [Number(localStorage.getItem("x"+i)), Number(localStorage.getItem("y"+i))],
                 score: Number(localStorage.getItem("score"+i))
             }
-            console.log(group);
         }
         else{
             r = (Math.random()+1)*128;
@@ -38,7 +38,7 @@ const generateGroups = () => {
             b = (Math.random()+1)*128;
             x = iconMargin + ((i-1)/5 | 0) * (iconDiameter + iconMargin);
             y = iconMargin + ((i-1) % 5) * (iconDiameter + iconMargin);
-            console.log(r,g,b)
+           
             group = {
                 number: i,
                 color: `rgb(${r},${g},${b})`,
@@ -47,7 +47,6 @@ const generateGroups = () => {
                 pos: [x, y],
                 score: 0
             };
-            console.log(group)
             localStorage.setItem("color"+i, group.color);
             localStorage.setItem("darkenColor"+i, group.darkenColor);
             localStorage.setItem("at"+i, group.at);
@@ -84,6 +83,7 @@ const generateGroups = () => {
     if (localStorage.getItem("groupSet") === "true"){
         changeRank();
         currentGroup = localStorage.getItem("currentGroup");
+        document.getElementById("colored-num").innerText = currentGroup;
     }
     else{
         localStorage.setItem("groupSet", "true");
@@ -143,7 +143,6 @@ const generateBoard = () => {
     if (localStorage.getItem("groupSet") === "true"){
         groupNum = Number(localStorage.getItem("groupNum"));
         generateGroups();
-        console.log(groupNum);
     }
 }
 
@@ -258,10 +257,12 @@ const openblock = (group) => {
                 break;
         }
         changeRank();
-        document.getElementById("colored-num").innerText = (++currentGroup > groupNum)? 1: currentGroup;
+        currentGroup = (++currentGroup > groupNum)? 1: currentGroup;
+        document.getElementById("colored-num").innerText = currentGroup;
         localStorage.setItem("currentGroup", currentGroup);
     }else if (block.classList.contains("pass") || block.classList.contains("start")){
-        document.getElementById("colored-num").innerText = (++currentGroup > groupNum)? 1: currentGroup;
+        currentGroup = (++currentGroup > groupNum)? 1: currentGroup;
+        document.getElementById("colored-num").innerText = currentGroup;
         localStorage.setItem("currentGroup", currentGroup);
     }else if (block.classList.contains("Q")) {
         openPuzzle();
@@ -269,7 +270,6 @@ const openblock = (group) => {
 }
 
 const closeDestiny = (e) => {
-    console.log("QQ");
     e.children[destiny].style.display = "none";
     e.style.display = "none";
 }
@@ -360,24 +360,21 @@ const rollDice = () => {
 }
 
 const setPuzzleScore = () => {
-    console.log(localStorage.getItem(`block${findGroup(currentGroup).at}`).split(","))
     let mult = localStorage.getItem(`block${findGroup(currentGroup).at}`).split(",")[1];
     let correctGroups = [...document.getElementById("correct-groups").value.matchAll(/\d+/g)].map(e => findGroup(e[0]))
     let total = correctGroups.length;
-    console.log(correctGroups);
     for (let group of correctGroups){
-        console.log(group.score);
-        console.log(mult);
         group.score += Math.round((20*parseInt(mult))*100)/100;
     }
     if (document.getElementById("contributor").value.match(/\d+/)){
-        console.log(document.getElementById("contributor").value)
         let contributorGroup = findGroup(document.getElementById("contributor").value);
         contributorGroup.score += (total === groupNum-1 || total === 0)? -10 : Math.round((30*total/(groupNum-1))*100)/100;
     }
    
     changeRank();
     document.getElementById("puzzle-container").style.display = "none";
-    document.getElementById("colored-num").style.innerText = (++currentGroup > groupNum)? 1: currentGroup;
+    currentGroup = (++currentGroup > groupNum)? 1: currentGroup;
+    document.getElementById("colored-num").innerText = currentGroup;
     localStorage.setItem("currentGroup", currentGroup);
+    console.log(currentGroup);
 }
